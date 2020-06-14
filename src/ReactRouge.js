@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import InputManager from "./inputManager";
 import Player from "./Player";
 import World from "./World";
+import Spawner from "./Spawner";
 
 const ReactRouge = ({ height, width, tileSize }) => {
     const canvasRef = useRef();
@@ -38,7 +39,9 @@ const ReactRouge = ({ height, width, tileSize }) => {
         Object.assign(newWorld, world);
         newWorld.createCellularMap();
         setWorld(newWorld);
-        newWorld.moveToSpace(world.player)
+        newWorld.moveToSpace(world.player);
+        let spawner = new Spawner(newWorld);
+        spawner.spawnLoot(10);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -47,7 +50,7 @@ const ReactRouge = ({ height, width, tileSize }) => {
             ref={canvasRef}
             width={width * tileSize}
             height={height * tileSize}
-            style={{ border: "1px solid black" }}
+            style={{ border: "1px solid black", background: 'DimGrey' }}
         ></canvas>
     );
 };
