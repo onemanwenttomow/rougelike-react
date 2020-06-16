@@ -1,4 +1,6 @@
 import Loot from "./Loot";
+import Monster from "./Monster";
+import Stairs from "./Stairs";
 
 const lootTable = [
     {
@@ -27,6 +29,23 @@ const lootTable = [
     },
 ];
 
+const monsterTable = [
+    {
+        name: 'Orc',
+        color: 'darkgreen',
+        ascii: 'o',
+        offset: {x: 4, y: 3},
+        health: 5
+    },
+    {
+        name: 'Goblin',
+        color: 'lightgreen',
+        ascii: 'g',
+        offset: {x: 4, y: 1},
+        health: 3
+    }
+]
+
 class Spawner {
     constructor(world) {
         this.world = world;
@@ -43,12 +62,30 @@ class Spawner {
     spawnLoot(spawnCount) {
         this.spawn(spawnCount, () => {
             return new Loot(
-                getRandomInt(this.world.width),
-                getRandomInt(this.world.height),
+                getRandomInt(this.world.width - 1),
+                getRandomInt(this.world.height - 1),
                 this.world.tileSize,
                 lootTable[getRandomInt(lootTable.length)]
             );
         });
+    }
+
+    spawnMonsters(spawnCount) {
+        this.spawn(spawnCount, () => {
+            return new Monster(
+                getRandomInt(this.world.width - 1),
+                getRandomInt(this.world.height - 1),
+                this.world.tileSize,
+                monsterTable[getRandomInt(monsterTable.length)]
+            );
+        });
+    }
+
+    spawnStairs() {
+        const stairs = new Stairs(this.world.width - 10, this.world.height -10, this.world.tileSize);
+        console.log('stairs: ',stairs);
+        this.world.add(stairs);
+        this.world.moveToSpace(stairs);
     }
 }
 

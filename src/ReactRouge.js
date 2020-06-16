@@ -42,16 +42,40 @@ const ReactRouge = ({ height, width, tileSize }) => {
         newWorld.moveToSpace(world.player);
         let spawner = new Spawner(newWorld);
         spawner.spawnLoot(10);
+        console.log('spawner: ',spawner);
+        spawner.spawnMonsters(5);
+        spawner.spawnStairs();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
-        <canvas
-            ref={canvasRef}
-            width={width * tileSize}
-            height={height * tileSize}
-            style={{ border: "1px solid black", background: 'DimGrey' }}
-        ></canvas>
+        <div>
+            <canvas
+                ref={canvasRef}
+                width={width * tileSize}
+                height={height * tileSize}
+                style={{ border: "1px solid black", background: 'DimGrey' }}
+            ></canvas>
+            <ul>
+                {world.player.inventory.map((item, index) => 
+                    ( 
+                        <li key={index}>
+                           {item.attributes.name}
+                        </li>
+                    )
+                )}
+            </ul>
+            <ul>
+                {world.history.map((item, index) => 
+                    ( 
+                        <li key={index}>
+                           {item}
+                        </li>
+                    )
+                )}
+            </ul>
+        </div>
+        
     );
 };
 
